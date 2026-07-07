@@ -1,0 +1,21 @@
+vc_object:
+  HostSystem:                       # Name of the vCenter managed object type (pyVmomi vim.<Type>)
+    target: VMWARE:HostSystem       # Target ops resource type as AdapterKind:ResourceKind
+
+    # OPTIONAL. How to match the EXISTING ops resource so we UPDATE it instead of
+    # creating a duplicate. Each entry maps an ops resource identifier that is
+    # "part of uniqueness" to a value sourced from vCenter. Supported sources:
+    #   moid    -> managed object id of the vCenter object (e.g. 'host-6455')
+    #   vc_uuid -> the vCenter instance UUID (same for every object in one vCenter)
+    #   name    -> the object's name
+    # If omitted, these defaults are used, which uniquely identify essentially any
+    # vCenter-collected resource (HostSystem, VirtualMachine, Datastore, ...):
+    #   identifiers:
+    #     VMEntityObjectID: moid
+    #     VMEntityVCID: vc_uuid
+
+    metrics:                        # One or more metrics to collect and push (a list)
+      - vcenter_key: cpu.usage      # vCenter counter, 'group.name' or 'group.name.rollup'
+        ops_key: cpu|usage20s       # Stat key in ops
+        ops_label: CPU|Usage 20s    # Friendly label in ops (optional, informational)
+        ops_unit: "%"               # Unit in ops (optional, informational)
