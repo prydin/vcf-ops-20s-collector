@@ -1,0 +1,53 @@
+[Unit]
+Description=High-frequency (20s) vCenter -> VCF Operations metric collector
+Documentation=https://github.com/your-org/vcf-ops-20s-collector
+# Wait for the network to be up before trying to reach vCenter/Ops.
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+# Dedicated, unprivileged service account (see systemd/INSTALL.md).
+User=vcfcollector
+Group=vcfcollector
+
+# Where the script and config.yaml live.
+WorkingDirectory=/opt/vcf-ops-20s-collector
+
+# Non-secret settings (hosts, users) and, if you must, secrets are read from
+# this file. Keep it root-owned and chmod 600 because it holds OPS_PASS/VC_PASS.
+# The leading '-' makes the file optional (e.g. if you inject secrets another way).
+EnvironmentFile=-/etc/vcf-ops-20s-collector/collector.env
+
+# Use the project's Python. Adjust the interpreter path if you use a venv, e.g.
+#   ExecStart=/opt/vcf-ops-20s-collector/.venv/bin/python push_metrics.py
+ExecStart=/usr/bin/python3 push_metrics.py
+
+# The script self-heals within 20s when vCenter/Ops is unreachable, but restart
+# it anyway if the process itself ever exits.
+Restart=on-failure
+RestartSec=10s
+
+# Log to the journal.
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=vcf-ops-20s-collector
+
+# --- Hardening (safe defaults for a network client that only reads its own dir) ---
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+RestrictNamespaces=true
+RestrictSUIDSGID=true
+LockPersonality=true
+# The script writes nothing to disk; grant no writable paths. Add ReadWritePaths=
+# here if you later add file output.
+
+[Install]
+WantedBy=multi-user.target

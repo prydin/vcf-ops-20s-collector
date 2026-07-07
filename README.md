@@ -112,6 +112,12 @@ The script prints each host and the value it pushes, then repeats every 20
 seconds. Press `Ctrl+C` to stop. If vCenter or Ops goes down, it logs the error
 and keeps retrying every cycle until the connection is restored.
 
+### As a systemd service (Linux)
+
+To run it unattended on Linux, install it as a systemd service. See
+[systemd/INSTALL.md](systemd/INSTALL.md) for step-by-step instructions; the unit
+and an environment-file template live in the [systemd/](systemd/) folder.
+
 ## Notes
 
 - API-pushed metrics take a couple of minutes to appear in the Ops UI (analytics
