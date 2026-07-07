@@ -1,5 +1,4 @@
-# High-Frequency Metric Collector (test script)
-
+# High-Frequency Metric Collector 
 A small Python script that reads real-time performance counters from vCenter and
 pushes them into VCF / Aria Operations at **20-second resolution** — finer than
 the standard 5-minute collection. It attaches the data to the **existing** Ops
