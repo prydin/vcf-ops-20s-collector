@@ -5,7 +5,7 @@ the standard 5-minute collection. It attaches the data to the **existing** Ops
 resources (e.g. the host objects the vCenter adapter already manages) instead of
 creating duplicates.
 
-This is throw-away test tooling, not a supported product.
+This is currently test tooling, not a supported product! Use with caution!
 
 ## How it works
 
