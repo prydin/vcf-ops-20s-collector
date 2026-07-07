@@ -102,10 +102,10 @@ should authenticate to the secrets manager with a non-secret machine identity
 
 ## Running
 
-```powershell
-$env:OPS_PASS="<ops-password>"
-$env:VC_PASS="<vcenter-password>"
-py push_metrics.py
+```bash
+export OPS_PASS="<ops-password>"
+export VC_PASS="<vcenter-password>"
+python push_metrics.py
 ```
 
 The script prints each host and the value it pushes, then repeats every 20
